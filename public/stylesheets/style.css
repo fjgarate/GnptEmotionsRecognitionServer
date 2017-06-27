@@ -6,3 +6,16 @@ body {
 a {
   color: #00B7FF;
 }
+#overview ul{
+   list-style:none;
+   font-size:17px
+}
+#overview ul li{
+	width:350px;
+   height:40px;
+   border-bottom:1px solid gray;
+}
+#overview ul li p{
+  padding: 10px 15px;
+}      
+      

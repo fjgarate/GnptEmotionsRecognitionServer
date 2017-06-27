@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="plunker">
+<html >
    <head>
     <title>GNPT Emotions Recognition</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -35,7 +35,7 @@
 		<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
  <script>
 
-var app = angular.module('plunker', ['nvd3']);
+
 
 
 
@@ -79,20 +79,18 @@ var app = angular.module('plunker', ['nvd3']);
          
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Resultado de la ejecucion</h1>
-      
-  
+          <h1 class="page-header">Uso de la pltaforma</h1>
+          <div id="overview">
+<ul>
+    <li><p>Usuarios {{data.num_users}}</p></li>
+	<li><p>Sessiones:  {{data.num_sessions}}</p></li>
+	<li><p>Tareas:  {{data.num_results}}</p></li>
+	<li><p>Emociones detectadas:  {{data.frames_detected}}</p></li>
+	<li><p>Emociones perdidas:  {{data.frames_noface}}</p></li>
+	</ul>
 
-<div ng-app="result" ng-controller="results">
+   </div>
 
-    <p>mostramos los datos de la tarea  {{data.result_id}}</p>
-	<p>tarea:  {{data.task}}</p>
-	<p>realizada por:  {{data.user_name}}</p>
-	<p>fecha:  {{data.date}}</p>
-
-   
-
-</div>
       </div>
       </div>
       </div>

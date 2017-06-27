@@ -23,7 +23,39 @@ resultModel.getResults = function(callback)
 		});
 	}
 };
-
+resultModel.getResultsOverview = function(callback)
+{
+	if (db) 
+	{
+		var sql = 'select ('+
+		'SELECT count(*) FROM gnpt_results.results'+
+		')  as num_results,'+
+		'('+
+		'SELECT count(distinct(user_name)) FROM gnpt_results.results'+
+		')  as num_users,'+
+		'('+
+		'SELECT count(distinct(session_id)) FROM gnpt_results.results'+
+		')  as num_sessions,'+
+		'('+
+		'SELECT sum(frames_detected) FROM gnpt_results.results'+
+		')  as frames_detected,'+
+		'('+
+		'SELECT sum(frames_noface) FROM gnpt_results.results'+
+		')  as frames_noface;';
+		
+		
+		db.query(sql, function(error, rows) {
+			if(error)
+			{
+				throw error;
+			}
+			else
+			{
+				callback(null, rows[0]);
+			}
+		});
+	}
+};
 //añadir un nuevo resultado
 resultModel.saveResult = function(resultData,callback)
 {
@@ -67,6 +99,58 @@ resultModel.getResultById = function(id,callback)
 		});
 	}
 }
+resultModel.getResultOverview2 = function(id,callback)
+{
+	if (db) 
+	{
+		/*var sql = 'select ('+
+			'SELECT count(*) FROM gnpt_results.results'+
+			')  as num_results,'+
+			'('+
+			'SELECT count(distinct(user_name)) FROM gnpt_results.results'+
+			')  as num_users,'+
+			'('+
+			'SELECT count(distinct(session_id)) FROM gnpt_results.results'+
+			')  as num_sessions,'+
+			'('+
+			'SELECT sum(frames_detected) FROM gnpt_results.results'+
+			')  as frames_detected,'+
+			'('+
+			'SELECT sum(frames_noface) FROM gnpt_results.results'+
+			')  as frames_noface;';
+		var sql = 'SELECT * FROM results';
+		db.query(sql, function(error, row) 
+		{
+			console.log(row[0]);
+			console.log(error)
+			if(error)
+			{
+				throw error;
+			}
+			else
+			{
+			
+				send(row);
+			}
+		});
+	}*/
+		
+
+		
+			db.query('SELECT * FROM results ', function(error, rows) {
+				if(error)
+				{
+					throw error;
+				}
+				else
+				{
+					callback(null, rows);
+				}
+			});
+		
+}
+}
+
 resultModel.getEmotionResultById = function(id,callback)
 {
 	var emotion_attention = [];
@@ -174,4 +258,5 @@ resultModel.getEmotionResultById = function(id,callback)
 		});
 	}
 }
+
 module.exports = resultModel;

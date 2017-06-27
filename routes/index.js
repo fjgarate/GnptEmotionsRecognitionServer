@@ -196,13 +196,13 @@ app.get("/", function(req,res){
 
 });
 app.get("/overview", function(req,res){
-//	var listResults;
-//	ResultModel.getResults(function(error, data)
-//			{
+	var listResults;
+	ResultModel.getResultsOverview(function(error, data)
+			{
 
-	//	listResults=data;
-		res.render('overview', {title:"hola",data:""});
-	//		});
+		listResults=data;
+		res.render('overview', {title:"Gnpt Emotions results",data:data});
+			});
 
 
 });
