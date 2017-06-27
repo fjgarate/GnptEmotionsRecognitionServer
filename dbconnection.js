@@ -7,7 +7,7 @@ var mysql=require('mysql');
 host:'localhost',
  user:'gnpt',
  password:'gnpt',
- database:'mydb'
+ database:'gnpt_results'
  
 });
  module.exports=connection;

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html ng-app="plunker">
+   <head>
     <title>GNPT Emotions Recognition</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>    
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
     <!-- Latest compiled and minified CSS -->
@@ -12,7 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-   
+   	
 <script>document.write('<base href="' + document.location + '" />');</script>
 	<script
 		src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.7/angular.min.js"></script>
@@ -24,6 +25,7 @@
 		charset="utf-8"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+		
 	<script
 		src="https://rawgit.com/krispo/angular-nvd3/v1.0.8/dist/angular-nvd3.js"></script>
 		    <script src="http://code.angularjs.org/1.2.16/angular-resource.js"></script>
@@ -31,15 +33,16 @@
 
 	<script src="//code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-<script>
+ <script>
 
-function result(id){
+var app = angular.module('plunker', ['nvd3']);
 
-document.location = "http://138.4.10.142:8443/user/"+id;
-}
+
+
 </script>
-  </head>
-  <body>
+
+ </head>
+    <body>
       <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -68,32 +71,27 @@ document.location = "http://138.4.10.142:8443/user/"+id;
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="http://138.4.10.142:8443">Ultimas tareas <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Resultados</a></li>
-            <li><a href="http://138.4.10.142:8443/overview">Resumen</a></li>
+            <li><a href="http://138.4.10.142:8443">Ultimas tareas <span class="sr-only">(current)</span></a></li>
+            <li ><a href="#">Resultados</a></li>
+            <li class="active"><a href="http://138.4.10.142:8443/overview">Resumen</a></li>
             <li><a href="#">Export</a></li>
           </ul>
          
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Ultimas tareas</h1>
+          <h1 class="page-header">Resultado de la ejecucion</h1>
       
   
 
-<div ng-app="myApp" ng-controller="myCtrl">
-<table id="example" class="display" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>id</th>
-                <th>User</th>
-                <th>Task</th>
-                <th>Date</th>
-                <th>Frames_detected</th>
-                <th>Frames_noface</th>    
-            </tr>
-        </thead>
-      
-    </table>
+<div ng-app="result" ng-controller="results">
+
+    <p>mostramos los datos de la tarea  {{data.result_id}}</p>
+	<p>tarea:  {{data.task}}</p>
+	<p>realizada por:  {{data.user_name}}</p>
+	<p>fecha:  {{data.date}}</p>
+
+   
+
 </div>
       </div>
       </div>
@@ -102,30 +100,5 @@ document.location = "http://138.4.10.142:8443/user/"+id;
 
 
   </body>
-  
-<script>
-var app = angular.module('myApp', []);
-app.controller('myCtrl', function($scope) {
-  	 var table=$('#example').DataTable( {
-	        "ajax": "http://138.4.10.142:8443/results",
-	        "columns": [
-	          { "data": "result_id" },
-	            { "data": "user_name" },
-	            { "data": "task" },
-	            { "data": "date" },
-	            { "data": "frames_detected" },
-	            { "data": "frames_noface" }
-	          
-	 
-	        ]
-	    } );
-	     $('#example tbody').on('click', 'tr', function () {
-        var data = table.row( this ).data();
-  
-        document.location = "http://138.4.10.142:8443/results/"+data.result_id;
-        
-    } );
-});
-
-</script>
 </html>
+
