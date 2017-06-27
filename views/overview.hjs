@@ -88,7 +88,7 @@
 	<li><p>Emociones detectadas:  {{data.frames_detected}}</p></li>
 	<li><p>Emociones perdidas:  {{data.frames_noface}}</p></li>
 	</ul>
-
+   
    </div>
 
       </div>
