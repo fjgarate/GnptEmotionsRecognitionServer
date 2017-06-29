@@ -33,77 +33,7 @@
 
 	<script src="//code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
- <script>
 
-var app = angular.module('plunker', ['nvd3']);
-
-app.controller('results', function($scope, $http) {
-  $scope.options = {
-            chart: {
-                type: 'lineChart',
-                height: 250,
-                  width: 750,
-                margin : {
-                    top: 20,
-                    right: 20,
-                    bottom: 40,
-                    left: 55
-                },
-                x: function(d){ return d.x; },
-                y: function(d){ return d.y; },
-                useInteractiveGuideline: true,
-                dispatch: {
-                    stateChange: function(e){ console.log("stateChange"); },
-                    changeState: function(e){ console.log("changeState"); },
-                    tooltipShow: function(e){ console.log("tooltipShow"); },
-                    tooltipHide: function(e){ console.log("tooltipHide"); }
-                },
-                xAxis: {
-                    axisLabel: 'frames'
-                },
-                yAxis: {
-                    axisLabel: 'Voltage (v)',
-                    tickFormat: function(d){
-                        return d3.format('.03f')(d);
-                    },
-                    axisLabelDistance: -10
-                },
-                callback: function(chart){
-                    console.log("!!! lineChart callback !!!");
-                }
-            },
-            title: {
-                enable: true,
-                text: 'Emociones detectadas'
-            },
-            subtitle: {
-                enable: false,
-                text: 'Subtitle for simple line chart. Lorem ipsum dolor sit amet, at eam blandit sadipscing, vim adhuc sanctus disputando ex, cu usu affert alienum urbanitas.',
-                css: {
-                    'text-align': 'center',
-                    'margin': '10px 13px 0px 7px'
-                }
-            },
-            caption: {
-                enable: false,
-                html: '<b>Figure 1.</b> Lorem ipsum dolor sit amet, at eam blandit sadipscing, <span style="text-decoration: underline;">vim adhuc sanctus disputando ex</span>, cu usu affert alienum urbanitas. <i>Cum in purto erat, mea ne nominavi persecuti reformidans.</i> Docendi blandit abhorreant ea has, minim tantas alterum pro eu. <span style="color: darkred;">Exerci graeci ad vix, elit tacimates ea duo</span>. Id mel eruditi fuisset. Stet vidit patrioque in pro, eum ex veri verterem abhorreant, id unum oportere intellegam nec<sup>[1, <a href="https://github.com/krispo/angular-nvd3" target="_blank">2</a>, 3]</sup>.',
-                css: {
-                    'text-align': 'justify',
-                    'margin': '10px 13px 0px 7px'
-                }
-            }
-        };
-
-    
-    $http.get('/emotionresults/{{data.result_id}}',$scope.formData).success(
-			function(data2) {
-				 $scope.data=data2;
-			}).error(function(data2) {
-		console.log('Error:' + data2);
-	});
-});
-
-</script>
 
  </head>
     <body>
@@ -155,7 +85,31 @@ app.controller('results', function($scope, $http) {
 	<p>fecha:  {{data.date}}</p>
 
  <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
-   
+ <div style="float:left; ">
+ <nvd3   on-ready="callback_age" options="optionsMean" data="dataMean" ></nvd3>
+</div>
+<div style="width: 500px;float: right;margin-right: 200px;">
+
+<div class="title h4" style="text-align: center;">General Results</div>
+
+  <table style="    width: 400px;margin-left: 100px; margin-top: 30px;"> 
+  <tr>
+  <td>Task Result </td>  <td>{{percentage}} %</td>
+   </tr>
+   <tr>
+  <td>Attention </td>  <td>{{attention}} %</td>
+   </tr>
+     <tr>
+  <td>Correct </td>  <td>{{correct}} </td>
+   </tr>
+     <tr>
+  <td>Mistaken </td>  <td>{{mistaken}} </td>
+   </tr>
+     <tr>
+  <td>Omitted </td>  <td>{{omitted}} </td>
+   </tr>
+  </table>
+</div>
 
 </div>
       </div>
@@ -166,4 +120,121 @@ app.controller('results', function($scope, $http) {
 
   </body>
 </html>
+ <script>
 
+var app = angular.module('plunker', ['nvd3']);
+
+app.controller('results', function($scope, $http) {
+ $scope.x=0;
+  $scope.options = {
+            chart: {
+                type: 'lineChart',
+                height: 250,
+                  width: 850,
+                margin : {
+                    top: 20,
+                    right: 20,
+                    bottom: 40,
+                    left: 55
+                },
+                x: function(d){ return d.x; },
+                y: function(d){ return d.y; },
+                useInteractiveGuideline: true,
+                dispatch: {
+                    stateChange: function(e){ console.log("stateChange"); },
+                    changeState: function(e){ console.log("changeState"); },
+                    tooltipShow: function(e){ console.log("tooltipShow"); },
+                    tooltipHide: function(e){ console.log("tooltipHide"); }
+                },
+                xAxis: {
+                    axisLabel: 'frames'
+                },
+                yAxis: {
+                    axisLabel: 'Value',
+                    tickFormat: function(d){
+                        return d3.format('.03f')(d);
+                    },
+                    axisLabelDistance: -10
+                },
+                callback: function(chart){
+                    console.log("!!! lineChart callback !!!");
+                }
+            },
+            title: {
+                enable: true,
+                text: 'Evolution'
+            },
+            subtitle: {
+                enable: false,
+                text: 'Subtitle for simple line chart. Lorem ipsum dolor sit amet, at eam blandit sadipscing, vim adhuc sanctus disputando ex, cu usu affert alienum urbanitas.',
+                css: {
+                    'text-align': 'center',
+                    'margin': '10px 13px 0px 7px'
+                }
+            },
+            caption: {
+                enable: false,
+                html: '<b>Figure 1.</b> Lorem ipsum dolor sit amet, at eam blandit sadipscing, <span style="text-decoration: underline;">vim adhuc sanctus disputando ex</span>, cu usu affert alienum urbanitas. <i>Cum in purto erat, mea ne nominavi persecuti reformidans.</i> Docendi blandit abhorreant ea has, minim tantas alterum pro eu. <span style="color: darkred;">Exerci graeci ad vix, elit tacimates ea duo</span>. Id mel eruditi fuisset. Stet vidit patrioque in pro, eum ex veri verterem abhorreant, id unum oportere intellegam nec<sup>[1, <a href="https://github.com/krispo/angular-nvd3" target="_blank">2</a>, 3]</sup>.',
+                css: {
+                    'text-align': 'justify',
+                    'margin': '10px 13px 0px 7px'
+                }
+            }
+        };
+
+    
+    $http.get('/emotionresults/{{data.result_id}}',$scope.formData).success(
+			function(data2) {
+				 $scope.data=data2;
+			}).error(function(data2) {
+	});
+	 $http.get('/generalresults/{{data.result_id}}',$scope.formData).success(
+			function(data2) {
+			console.log(data2)
+
+				 $scope.generalresults=data2;
+		 $scope.hola=3;
+			}).error(function(data2) {
+	
+	});
+	$scope.optionsMean = {
+            chart: {
+                type: 'discreteBarChart',
+                height: 250,
+                  width: 500,
+                margin : {
+                    top: 20,
+                    right: 20,
+                    bottom: 50,
+                    left: 55
+                },
+                x: function(d){return d.label;},
+                y: function(d){return d.value + (1e-10);},
+                showValues: true,
+                valueFormat: function(d){
+                    return d3.format('.01f')(d);
+                },
+                duration: 500,
+          
+                xAxis: {
+                    axisLabel: 'Emotions',
+                     rotateLabels:-45,
+                },
+                yAxis: {
+                    axisLabel: 'Value',
+                    axisLabelDistance: -10
+                }
+            }, title:  {
+                 enable: true,
+                 text: 'Average Values'
+                  }
+        };
+        
+         $http.get('/emotionmeanresults/{{data.result_id}}',$scope.formData).success(
+			function(data2) {
+				 $scope.dataMean=data2;
+			}).error(function(data2) {
+	});
+});
+
+</script>

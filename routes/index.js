@@ -14,18 +14,43 @@ app.get("/results", function(req,res){
 		res.json(200,{data:data});
 	});
 });
-//obtiene un usuario por su id
+
 app.get("/results/:id", function(req,res)
 {
 	//id del usuario
 	var id = req.params.id;
 	//de momento solo redireccionamos
 	ResultModel.getResultById(id, function(error, data) {
-		console.log('id: '+data)
+		console.log('id-->: '+data[0].result_id)
+		var final=data[0];
 		if (typeof data !== 'undefined' && data.length > 0)
 			{
-			console.log(data[0].result_id)
-			res.render('result', {title:'hola',data:data[0]});
+			
+			ResultModel.getGeneralResults(id, function(error, data2) {
+				console.log(data2)
+				if (typeof data !== 'undefined')
+					{
+			
+					//res.json(data);
+					console.log('ss')
+					res.render('result', {title:'GNPT EMOTION',data:data[0],
+						                  percentage:data2.percentage,
+						                  correct:data2.correct,
+						                  mistaken:data2.mistaken,
+						                  omitted:data2.omitted,
+						                  attention:data2.attention
+											});
+					}
+					//en otro caso mostramos una respuesta conforme no existe
+					else
+					{
+						console.log('pasa error')
+						res.json(404,{"msg":"notExist"});
+					}
+			})
+			
+			
+			
 			
 			}
 			//en otro caso mostramos una respuesta conforme no existe
@@ -48,8 +73,6 @@ app.get("/emotionresults/:id", function(req,res)
 	
 		if (typeof data !== 'undefined' && data.length > 0)
 			{
-			console.log('id: '+data[0])
-		//	res.render('result', {title:'hola',data:data[0]});
 			res.json(data);
 			
 			}
@@ -60,6 +83,49 @@ app.get("/emotionresults/:id", function(req,res)
 			}
 	})
 });
+
+app.get("/emotionmeanresults/:id", function(req,res)
+{
+	//id del resultado
+	var id = req.params.id;
+	console.log('id2:'+id)
+	//de momento solo redireccionamos
+	ResultModel.getEmotionMeanResultById(id, function(error, data) {
+	
+		if (typeof data !== 'undefined' && data.length > 0)
+			{
+			res.json(data);
+			
+			}
+			//en otro caso mostramos una respuesta conforme no existe
+			else
+			{
+				res.json(404,{"msg":"notExist"});
+			}
+	})
+});
+app.get("/generalresults/:id", function(req,res)
+		{
+			//id del resultado
+			var id = req.params.id;
+			//de momento solo redireccionamos
+			ResultModel.getGeneralResults(id, function(error, data) {
+				console.log(data)
+				if (typeof data !== 'undefined')
+					{
+
+					res.json(data);
+					
+					}
+					//en otro caso mostramos una respuesta conforme no existe
+					else
+					{
+						console.log('pasa error')
+						res.json(404,{"msg":"notExist"});
+					}
+			})
+		});
+
 app.post("/saveresults", function(req,res)
 {	
 	var resultData=JSON.parse(req.body.resultados);
@@ -199,8 +265,6 @@ app.get("/overview", function(req,res){
 	var listResults;
 	ResultModel.getResultsOverview(function(error, data)
 			{
-
-		listResults=data;
 		res.render('overview', {title:"Gnpt Emotions results",data:data});
 			});
 

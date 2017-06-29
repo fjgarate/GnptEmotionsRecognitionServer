@@ -11,7 +11,7 @@ resultModel.getResults = function(callback)
 {
 	if (db) 
 	{
-		db.query('SELECT * FROM results ', function(error, rows) {
+		db.query('SELECT * FROM results  order by date desc', function(error, rows) {
 			if(error)
 			{
 				throw error;
@@ -53,6 +53,40 @@ resultModel.getResultsOverview = function(callback)
 			{
 				callback(null, rows[0]);
 			}
+		});
+	}
+};
+resultModel.getGeneralResults = function(id,callback)
+{
+	
+	if (db) 
+	{
+		var sql = 'select ('+
+			'SELECT percentage FROM gnpt_results.results where  result_id= ' + db.escape(id) 
+			+')  as percentage ,'+ 
+			'('+ 
+			'SELECT correct FROM gnpt_results.results where  result_id= ' + db.escape(id)
+			+')  as correct ,'+ 
+			'('+ 
+			'SELECT mistaken FROM gnpt_results.results where  result_id= ' + db.escape(id)
+			+')  as mistaken ,'+ 
+			'('+ 
+			'SELECT omitted FROM gnpt_results.results where  result_id= ' + db.escape(id)
+			+')  as omitted ,'+ 
+			'('+ 
+			'SELECT Round(AVG(attention),2) FROM gnpt_results.emotion_result where  result_id= ' + db.escape(id)
+			+')  as attention';
+		
+			
+		db.query(sql, function(error, rows) {
+			if(error)
+			{
+				throw error;
+			}
+			else
+			{
+				callback(null,rows[0]);
+			};
 		});
 	}
 };
@@ -99,57 +133,7 @@ resultModel.getResultById = function(id,callback)
 		});
 	}
 }
-resultModel.getResultOverview2 = function(id,callback)
-{
-	if (db) 
-	{
-		/*var sql = 'select ('+
-			'SELECT count(*) FROM gnpt_results.results'+
-			')  as num_results,'+
-			'('+
-			'SELECT count(distinct(user_name)) FROM gnpt_results.results'+
-			')  as num_users,'+
-			'('+
-			'SELECT count(distinct(session_id)) FROM gnpt_results.results'+
-			')  as num_sessions,'+
-			'('+
-			'SELECT sum(frames_detected) FROM gnpt_results.results'+
-			')  as frames_detected,'+
-			'('+
-			'SELECT sum(frames_noface) FROM gnpt_results.results'+
-			')  as frames_noface;';
-		var sql = 'SELECT * FROM results';
-		db.query(sql, function(error, row) 
-		{
-			console.log(row[0]);
-			console.log(error)
-			if(error)
-			{
-				throw error;
-			}
-			else
-			{
-			
-				send(row);
-			}
-		});
-	}*/
-		
 
-		
-			db.query('SELECT * FROM results ', function(error, rows) {
-				if(error)
-				{
-					throw error;
-				}
-				else
-				{
-					callback(null, rows);
-				}
-			});
-		
-}
-}
 
 resultModel.getEmotionResultById = function(id,callback)
 {
@@ -163,7 +147,7 @@ resultModel.getEmotionResultById = function(id,callback)
 	var emotion_valence = [];
 	if (db) 
 	{
-		var sql = 'SELECT attention,anger,disgust,engagement,joy,sadness,surprise,valence FROM emotion_result WHERE result_id = ' + db.escape(id);
+		var sql = 'SELECT attention,anger,disgust,engagement,joy,sadness,surprise,valence FROM emotion_result WHERE result_id = ' + db.escape(id) ;
 		db.query(sql, function(error, rows) 
 		{
 			if(error)
@@ -186,7 +170,7 @@ resultModel.getEmotionResultById = function(id,callback)
 				emotion_valence.push({x: i, y:rows[i].valence});
                
             }
-			final = [
+			var final = [
 						{
 							values : emotion_attention, //values - represents the array of {x,y} data points
 							key : 'Attention', //key  - the name of the series.
@@ -258,5 +242,76 @@ resultModel.getEmotionResultById = function(id,callback)
 		});
 	}
 }
+resultModel.getEmotionMeanResultById = function(id,callback)
+{
+	var values = [];
+	if (db) 
+	{
+		var sql = 'SELECT Round(AVG(attention),2) as attention,Round(AVG(anger),2) as anger ,Round(AVG(disgust),2) as disgust ,Round(AVG(engagement),2) as engagement,Round(AVG(joy),2) as joy ,Round(AVG(sadness),2) as sadness ,Round(AVG(surprise),2) as surprise ,Round(AVG(valence),2) as valence FROM emotion_result WHERE result_id = ' + db.escape(id);
+		db.query(sql, function(error, rows) 
+		{
+			if(error)
+			{
+				throw error;
+			}
+			else
+			{
+		
+			
+			if (rows.length>0) {
 
+				/*values.push({
+			         label: 'Atenttion',
+			         value:Number(rows[0].attention)
+			        });*/
+				
+				values.push({
+			         label: 'Anger',
+			         value:Number(rows[0].anger)
+			        });
+				
+				values.push({
+			         label: 'Disgust',
+			         value:Number(rows[0].disgust)
+			        });
+				
+				values.push({
+			         label: 'Engagement',
+			         value:Number(rows[0].engagement)
+			        });
+				
+				values.push({
+			         label: 'Joy',
+			         value:Number(rows[0].joy)
+			        });
+				
+				values.push({
+			         label: 'Sadness',
+			         value:Number(rows[0].sadness)
+			        });
+				
+				values.push({
+			         label: 'Surprise',
+			         value:Number(rows[0].surprise)
+			        });
+				
+				values.push({
+			         label: 'Valence',
+			         value:Number(rows[0].valence)
+			        });
+            }
+			
+			final = [
+						{
+							key :"valoress medios", //values - represents the array of {x,y} data points
+							values : values
+							
+						}
+						];
+				//	console.log(final)	
+				callback(null, final);
+			}
+		});
+	}
+}
 module.exports = resultModel;
