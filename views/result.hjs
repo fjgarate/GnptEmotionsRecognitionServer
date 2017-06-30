@@ -65,34 +65,48 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="http://138.4.10.142:8443">Ultimas tareas <span class="sr-only">(current)</span></a></li>
-            <li class="active"><a href="#">Resultados</a></li>
-            <li><a href="http://138.4.10.142:8443/overview">Resumen</a></li>
+            <li><a href="http://138.4.10.142:8443">Latest tasks<span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="#">Results</a></li>
+            <li><a href="http://138.4.10.142:8443/overview">Overview</a></li>
             <li><a href="#">Export</a></li>
           </ul>
          
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Resultado de la ejecucion</h1>
+          <h1 class="page-header">Results</h1>
       
   
 
 <div ng-app="result" ng-controller="results">
+    <div id="resul_head" >
 
-    <p>mostramos los datos de la tarea  {{data.result_id}}</p>
-	<p>tarea:  {{data.task}}</p>
-	<p>realizada por:  {{data.user_name}}</p>
-	<p>fecha:  {{data.date}}</p>
-
+    <table style="    width: 75%; margin-top: 30px;margin-bottom: 30px"> 
+  <tr>
+  <td>id task:</td>  <td>{{data.result_id}}</td>
+   </tr>
+   <tr>
+  <td>task name:  </td>  <td> {{data.task}}</td>
+   </tr>
+     <tr>
+  <td>by: </td>  <td>{{data.user_name}} </td>
+   </tr>
+     <tr>
+  <td>date: </td>  <td>{{data.date}}</td>
+   </tr>
+     
+  </table>
+  </div>
+<div style="width:90%; border-bottom:3px solid gray;padding-bottom:25px;margin-bottom:25px">
  <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
- <div style="float:left; ">
+ </div>
+ <div style="float:left;width:50% ">
  <nvd3   on-ready="callback_age" options="optionsMean" data="dataMean" ></nvd3>
 </div>
-<div style="width: 500px;float: right;margin-right: 200px;">
+<div style="width:50%;float:right;">
 
 <div class="title h4" style="text-align: center;">General Results</div>
 
-  <table style="    width: 400px;margin-left: 100px; margin-top: 30px;"> 
+  <table style="    width: 75%;margin-left: auto; margin-top: 30px;"> 
   <tr>
   <td>Task Result </td>  <td>{{percentage}} %</td>
    </tr>
@@ -130,7 +144,7 @@ app.controller('results', function($scope, $http) {
             chart: {
                 type: 'lineChart',
                 height: 250,
-                  width: 850,
+               
                 margin : {
                     top: 20,
                     right: 20,
@@ -201,7 +215,7 @@ app.controller('results', function($scope, $http) {
             chart: {
                 type: 'discreteBarChart',
                 height: 250,
-                  width: 500,
+           
                 margin : {
                     top: 20,
                     right: 20,

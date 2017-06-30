@@ -71,22 +71,22 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="http://138.4.10.142:8443">Ultimas tareas <span class="sr-only">(current)</span></a></li>
-            <li ><a href="#">Resultados</a></li>
-            <li class="active"><a href="http://138.4.10.142:8443/overview">Resumen</a></li>
+            <li><a href="http://138.4.10.142:8443">Latest tasks <span class="sr-only">(current)</span></a></li>
+            <li ><a href="#">Results</a></li>
+            <li class="active"><a href="http://138.4.10.142:8443/overview">Overview</a></li>
             <li><a href="#">Export</a></li>
           </ul>
          
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Uso de la pltaforma</h1>
+          <h1 class="page-header">Overview</h1>
           <div id="overview">
 <ul>
-    <li><p>Usuarios {{data.num_users}}</p></li>
-	<li><p>Sessiones:  {{data.num_sessions}}</p></li>
-	<li><p>Tareas:  {{data.num_results}}</p></li>
-	<li><p>Emociones detectadas:  {{data.frames_detected}}</p></li>
-	<li><p>Emociones perdidas:  {{data.frames_noface}}</p></li>
+    <li><p>Users {{data.num_users}}</p></li>
+	<li><p>Sessions:  {{data.num_sessions}}</p></li>
+	<li><p>Tasks:  {{data.num_results}}</p></li>
+	<li><p>Emotions detected:  {{data.frames_detected}}</p></li>
+	<li><p>Lost emotions:  {{data.frames_noface}}</p></li>
 	</ul>
    
    </div>
