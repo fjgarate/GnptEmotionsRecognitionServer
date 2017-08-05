@@ -71,10 +71,13 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="http://138.4.10.142:8443">Latest tasks <span class="sr-only">(current)</span></a></li>
-            <li ><a href="#">Results</a></li>
-            <li class="active"><a href="http://138.4.10.142:8443/overview">Overview</a></li>
-            <li><a href="#">Export</a></li>
+            <!--li><a href="http://138.4.10.143:8443">Latest tasks <span class="sr-only">(current)</span></a></li-->
+            <li><a href="http://192.168.43.119:8443">Latest tasks <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Results</a></li>
+            <!--li class="active"><a href="http://138.4.10.143:8443/overview">Overview</a></li-->
+            <li class="active"><a href="http://192.168.43.119:8443/overview">Overview</a></li>
+            <!--li><a href="http://138.4.10.143:8443/exportOverview">Export</a></li-->
+            <li><a href="http://192.168.43.119:8443/exportOverview">Export</a></li>
           </ul>
          
         </div>

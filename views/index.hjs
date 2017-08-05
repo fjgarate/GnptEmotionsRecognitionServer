@@ -35,7 +35,8 @@
 
 function result(id){
 
-document.location = "http://138.4.10.142:8443/user/"+id;
+<!--document.location = "http://138.4.10.143:8443/user/"+id;-->
+document.location = "http://192.168.43.119:8443/user/"+id;
 }
 </script>
   </head>
@@ -68,10 +69,13 @@ document.location = "http://138.4.10.142:8443/user/"+id;
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="http://138.4.10.142:8443">Latest tasks <span class="sr-only">(current)</span></a></li>
+            <!--li class="active"><a href="http://138.4.10.143:8443">Latest tasks <span class="sr-only">(current)</span></a></li-->
+            <li class="active"><a href="http://192.168.43.119:8443">Latest tasks <span class="sr-only">(current)</span></a></li>
             <li><a href="#">Results</a></li>
-            <li><a href="http://138.4.10.142:8443/overview">Overview</a></li>
-            <li><a href="#">Export</a></li>
+            <!--li><a href="http://138.4.10.143:8443/overview">Overview</a></li-->
+            <li><a href="http://192.168.43.119:8443/overview">Overview</a></li>
+            <!--li><a href="http://138.4.10.143:8443/exportResults">Export</a></li-->
+          	<li><a href="http://192.168.43.119/exportResults">Export</a></li>
           </ul>
          
         </div>
@@ -108,7 +112,9 @@ document.location = "http://138.4.10.142:8443/user/"+id;
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope) {
   	 var table=$('#example').DataTable( {
-	        "ajax": "http://138.4.10.142:8443/results",
+	        //"ajax": "http://138.4.10.143:8443/results",
+	        "ajax": "http://192.168.43.119:8443/results",
+	     
 	        "columns": [
 	          { "data": "result_id" },
 	            { "data": "user_name" },
@@ -124,9 +130,10 @@ app.controller('myCtrl', function($scope) {
 	     $('#example tbody').on('click', 'tr', function () {
         var data = table.row( this ).data();
   
-        document.location = "http://138.4.10.142:8443/results/"+data.result_id;
-        
-    } );
+        //document.location = "http://138.4.10.143:8443/results/"+data.result_id;
+        document.location = "http://192.168.43.119:8443/results/"+data.result_id;
+       
+    });
 });
 
 </script>

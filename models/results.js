@@ -90,28 +90,93 @@ resultModel.getGeneralResults = function(id,callback)
 		});
 	}
 };
-//añadir un nuevo resultado
+
+// ad a result emotion
+resultModel.saveEmotion = function(emotions, insertId, callback){
+	if(db){
+		for (var i = 0; i < emotions.length; i++){
+			if(typeof emotions[i] !== 'undefined' && emotions[i] !== null){
+				emotions[i].result_id = insertId;
+				//console.log(emotions[i]);
+				db.query('INSERT INTO emotion_result SET ?',emotions[i], function(error, result){
+					if(error){
+						console.log('error saving emotion result: '+error);
+						throw error;
+					}else{
+						console.log("emotions result inserted correctly for result " +insertId);
+						callback(null,{"insertId" : result.insertId});
+					}});
+			}
+		}
+	}
+};
+
+// add emotion from result array
+resultModel.saveEmotionArray = function(emotions, ids, callback){
+	if(db){
+		for (var i = 0; i < emotions.length; i++){
+			for (var j = 0; j <emotions[i].length; j++){
+			if(typeof emotions[i][j] !== 'undefined' && emotions[i][j] !== null){
+				emotions[i][j].result_id = ids[i];
+				//console.log(emotions[i]);
+				db.query('INSERT INTO emotion_result SET ?',emotions[i][j], function(error, result){
+					if(error){
+						console.log('error saving emotion result: '+error);
+						throw error;
+					}else{
+						console.log("emotions result inserted correctly for result " +ids[i]);
+						callback(null,{"insertId" : result.insertId});
+					}});
+			}
+			}
+		}
+	}
+};
+
+//add a new result
 resultModel.saveResult = function(resultData,callback)
-{
+{	
 	if (db) 
 	{
-		db.query('INSERT INTO results SET ?', resultData, function(error, result) 
-		{
-			if(error)
-			{
+		db.query('INSERT INTO results SET ?', resultData, function(error, result){
+			if(error){
+				console.log('error saveResult result: '+error);
 				throw error;
-			}
-			else
-			{/*
-				var resultId=result.insertId;
-				
-				db.query('INSERT INTO emotions_result SET ?', resultEmotionData, function(error, result){
-					//devolvemos la última id insertada
-					callback(null,{"insertId" : result.insertId});
-				});*/
+			}else{
+				//console.log(result);
 				callback(null,{"insertId" : result.insertId});
-			}
-		});
+			}});
+	}
+};
+
+//add a new result from array
+resultModel.saveResultArray = function(resultData,callback){
+	var emotions = [];
+	var ids = [];
+	if (db){
+		for (var i = 0; i < resultData.length; i++){
+			emotions.push(resultData[i].result_id);
+			resultData[i].result_id = '';
+			db.query('INSERT INTO results SET ?', resultData[i], function(error, result){
+			if(error){
+				console.log('error saveResult from array: '+error);
+				throw error;
+			}else{
+				ids.push(result.insertId);
+				callback(null,{"insertId" : ids, "emotions":emotions});
+			}});
+	}
+}};
+
+resultModel.getEmotionsTable = function(callback){
+	if (db){
+		db.query('SELECT * FROM emotion_result', function(error, result){
+		if(error){
+			console.log('error saveResult from array: '+error);
+			throw error;
+		}else{
+			callback(null,result);
+		}});
 	}
 };
 resultModel.getResultById = function(id,callback)
@@ -145,21 +210,23 @@ resultModel.getEmotionResultById = function(id,callback)
 	var emotion_sadness = [];
 	var emotion_surprise = [];
 	var emotion_valence = [];
+	//var emotion_fear = [];
+	//var emotion_contempt = [];
+	var view_change = [];
+	var view = 0;
+	
 	if (db) 
 	{
-		var sql = 'SELECT attention,anger,disgust,engagement,joy,sadness,surprise,valence FROM emotion_result WHERE result_id = ' + db.escape(id) ;
+		var sql = 'SELECT attention,anger,contempt,disgust,engagement,fear,joy,sadness,surprise,valence FROM emotion_result WHERE result_id = ' + db.escape(id) ;
 		db.query(sql, function(error, rows) 
 		{
 			if(error)
 			{
 				throw error;
-			}
-			else
-			{
+			}else{
 		
 			
 			for (var i = 0; i < rows.length; i++) {
-
 				emotion_attention.push({x: i, y:rows[i].attention});
 				emotion_anger.push({x: i, y:rows[i].anger});
 				emotion_disgust.push({x: i, y:rows[i].disgust});
@@ -168,8 +235,14 @@ resultModel.getEmotionResultById = function(id,callback)
 				emotion_sadness.push({x: i, y:rows[i].sadness});
 				emotion_surprise.push({x: i, y:rows[i].surprise});
 				emotion_valence.push({x: i, y:rows[i].valence});
-               
+				//emotion_fear.push({x: i, y:rows[i].fear});
+				//emotion_contempt.push({x: i, y:rows[i].contempt});
+				if (view!==rows[i].view){
+					view = rows[i].view;
+					view_change.push(i);
+				} 
             }
+			console.log(view_change);
 			var final = [
 						{
 							values : emotion_attention, //values - represents the array of {x,y} data points
@@ -234,8 +307,25 @@ resultModel.getEmotionResultById = function(id,callback)
 							strokeWidth : 4,
 							  disabled: true,
 							classed : 'dashed'
-						}
+						}/*,
+						{
+							values : emotion_fear, //values - represents the array of {x,y} data points
+							key : 'Fear', //key  - the name of the series.
+							//     color: '#ff7f0e',  //color - optional: choose your own line color.
+							strokeWidth : 4,
+							  disabled: true,
+							classed : 'dashed'
+						},
+						{
+							values : emotion_contempt, //values - represents the array of {x,y} data points
+							key : 'Contempt', //key  - the name of the series.
+							//     color: '#ff7f0e',  //color - optional: choose your own line color.
+							strokeWidth : 4,
+							  disabled: true,
+							classed : 'dashed'
+						}*/
 						];
+			
 				//	console.log(final)	
 				callback(null, final);
 			}

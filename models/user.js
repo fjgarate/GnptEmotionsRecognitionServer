@@ -24,7 +24,7 @@ userModel.getUsers = function(callback)
 	}
 };
 
-//añadir un nuevo resultado
+//add a new result
 userModel.saveUser = function(userData,callback)
 {
 	if (db) 
@@ -36,18 +36,14 @@ userModel.saveUser = function(userData,callback)
 				throw error;
 			}
 			else
-			{/*
-				var resultId=result.insertId;
-				
-				db.query('INSERT INTO emotions_result SET ?', resultEmotionData, function(error, result){
-					//devolvemos la última id insertada
-					callback(null,{"insertId" : result.insertId});
-				});*/
+			{
 				callback(null,{"insertId" : result.insertId});
 			}
 		});
 	}
-}
+};
+
+
 //obtenemos un usuario por su id
 userModel.getUser = function(id,callback)
 {
@@ -67,22 +63,25 @@ userModel.getUser = function(id,callback)
 		});
 	}
 }
-userModel.getUserByName = function(login,callback)
+userModel.getUserByName = function(name,callback)
 {
 	if (db) 
 	{
-		var sql = 'SELECT * FROM user WHERE user_name = ' + db.escape(login);
+		var sql = 'SELECT * FROM user WHERE user_name = ' + db.escape(name);
 		db.query(sql, function(error, row) 
 		{
 			if(error)
 			{
+				console.log("After query FAIL: "+error);
 				throw error;
 			}
 			else
 			{
+				console.log("After query OK: "+row);
 				callback(null, row);
 			}
 		});
 	}
-}
+};
+
 module.exports = userModel;

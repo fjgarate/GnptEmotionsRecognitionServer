@@ -65,10 +65,13 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="http://138.4.10.142:8443">Latest tasks<span class="sr-only">(current)</span></a></li>
+            <!--li><a href="http://138.4.10.143:8443">Latest tasks<span class="sr-only">(current)</span></a></li-->
+            <li><a href="http://192.168.43.119:8443">Latest tasks<span class="sr-only">(current)</span></a></li>
             <li class="active"><a href="#">Results</a></li>
-            <li><a href="http://138.4.10.142:8443/overview">Overview</a></li>
-            <li><a href="#">Export</a></li>
+            <!--li><a href="http://138.4.10.143:8443/overview">Overview</a></li-->
+            <li><a href="http://192.168.43.119:8443/overview">Overview</a></li>
+            <!--li><a href="http://138.4.10.143:8443/exportEmotions">Export</a></li-->
+            <li><a href="http://192.168.43.119:8443/exportEmotions">Export</a></li>
           </ul>
          
         </div>
@@ -82,16 +85,16 @@
 
     <table style="    width: 75%; margin-top: 30px;margin-bottom: 30px"> 
   <tr>
-  <td>id task:</td>  <td>{{data.result_id}}</td>
+  <td>ID task: </td>  <td>{{data.result_id}}</td>
    </tr>
    <tr>
-  <td>task name:  </td>  <td> {{data.task}}</td>
+  <td>Task name: </td>  <td> {{data.task}}</td>
    </tr>
      <tr>
-  <td>by: </td>  <td>{{data.user_name}} </td>
+  <td>By: </td>  <td>{{data.user_name}} </td>
    </tr>
      <tr>
-  <td>date: </td>  <td>{{data.date}}</td>
+  <td>Date: </td>  <td>{{data.date}}</td>
    </tr>
      
   </table>
@@ -108,19 +111,19 @@
 
   <table style="    width: 75%;margin-left: auto; margin-top: 30px;"> 
   <tr>
-  <td>Task Result </td>  <td>{{percentage}} %</td>
+  <td>Task Result: </td>  <td>{{percentage}} %</td>
    </tr>
    <tr>
-  <td>Attention </td>  <td>{{attention}} %</td>
+  <td>Attention: </td>  <td>{{attention}} %</td>
    </tr>
      <tr>
-  <td>Correct </td>  <td>{{correct}} </td>
+  <td>Correct: </td>  <td>{{correct}} </td>
    </tr>
      <tr>
-  <td>Mistaken </td>  <td>{{mistaken}} </td>
+  <td>Mistaken: </td>  <td>{{mistaken}} </td>
    </tr>
      <tr>
-  <td>Omitted </td>  <td>{{omitted}} </td>
+  <td>Omitted: </td>  <td>{{omitted}} </td>
    </tr>
   </table>
 </div>
